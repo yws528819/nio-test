@@ -1,4 +1,4 @@
-package com.yws;
+package com.yws.channel;
 
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
