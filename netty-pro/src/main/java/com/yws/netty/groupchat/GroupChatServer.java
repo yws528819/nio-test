@@ -36,7 +36,7 @@ public class GroupChatServer {
                             //向pipeline中加入编码器
                             pipeline.addLast("encoder", new StringEncoder());
                             //向pipeline中加入自己的业务处理handler
-                            pipeline.addLast(null);
+                            pipeline.addLast(new GroupChatServerHandler());
                         }
                     });
 
