@@ -33,14 +33,14 @@ public class GroupChatClient {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline.addLast("decoder", new StringDecoder());
                             pipeline.addLast("encoder", new StringEncoder());
-                            pipeline.addLast(null);
+                            pipeline.addLast(new GroupChatClientHandler());
                         }
                     });
 
             ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
 
             Channel channel = channelFuture.channel();
-            System.out.println("---" + channel.remoteAddress() + "---");
+            System.out.println("---我是客户端：" + channel.localAddress() + "---");
             //客户端控制台输入
             Scanner scanner = new Scanner(System.in);
             while (scanner.hasNext()) {
@@ -54,5 +54,8 @@ public class GroupChatClient {
 
     }
 
+    public static void main(String[] args) throws Exception{
+        new GroupChatClient("127.0.0.1", 8888).run();
+    }
 
 }
