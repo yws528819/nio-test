@@ -43,7 +43,7 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
-            <version>${grpc. version}</version>
+            <version>${grpc.version}</version>
             <scope>provided</scope>
         </dependency>
 
