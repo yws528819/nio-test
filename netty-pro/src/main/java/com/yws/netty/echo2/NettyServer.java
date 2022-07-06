@@ -5,9 +5,11 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 
 public class NettyServer {
-
+    private static final EventExecutorGroup group = new DefaultEventExecutorGroup(2);
     public static void main(String[] args) throws Exception{
         //创建BossGroup和WorkerGroup
         //说明
@@ -29,7 +31,8 @@ public class NettyServer {
                         //给pipeline设置处理器
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new NettyServerHandler());
+                            //ch.pipeline().addLast(new NettyServerHandler());
+                            ch.pipeline().addLast(group, new NettyServerHandler());
                         }
                     });//给我们的workerGroup的EventLoop对应的管道设置处理器
             System.out.println("...服务器 is ready");

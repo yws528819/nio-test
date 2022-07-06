@@ -43,12 +43,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         //    }
         //});
 
-        group.submit(() -> {
-            TimeUnit.SECONDS.sleep(10);
-            System.out.println("group.submit的call线程是=" + Thread.currentThread().getName());
-            ctx.writeAndFlush(Unpooled.copiedBuffer("hello,客户端~2", CharsetUtil.UTF_8));
-            return null;
-        });
+        // group.submit(() -> {
+        //     TimeUnit.SECONDS.sleep(10);
+        //     System.out.println("group.submit的call线程是=" + Thread.currentThread().getName());
+        //     ctx.writeAndFlush(Unpooled.copiedBuffer("hello,客户端~2", CharsetUtil.UTF_8));
+        //     return null;
+        // });
 
 
         //1.1这里如果有逻辑直接走，不会阻塞
