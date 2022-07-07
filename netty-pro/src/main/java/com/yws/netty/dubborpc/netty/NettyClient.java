@@ -45,29 +45,23 @@ public class NettyClient {
         //创建EventLoopGroup
         NioEventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
+        bootstrap.group(group)
+                .channel(NioSocketChannel.class)
+                .option(ChannelOption.TCP_NODELAY, true)
+                .handler(new ChannelInitializer<NioSocketChannel>() {
+                    @Override
+                    protected void initChannel(NioSocketChannel ch) throws Exception {
+                        ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new StringEncoder());
+                        pipeline.addLast(new StringDecoder());
+                        pipeline.addLast(client);
+                    }
+                });
+
         try {
-            bootstrap.group(group)
-                    .channel(NioSocketChannel.class)
-                    .option(ChannelOption.TCP_NODELAY, true)
-                    .handler(new ChannelInitializer<NioSocketChannel>() {
-                        @Override
-                        protected void initChannel(NioSocketChannel ch) throws Exception {
-                            ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new StringEncoder());
-                            pipeline.addLast(new StringDecoder());
-                            pipeline.addLast(client);
-                        }
-                    });
-
-            try {
-                ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 8888).sync();
-                channelFuture.channel().closeFuture();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }finally {
-            group.shutdownGracefully();
+            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 8888).sync();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
